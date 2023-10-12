@@ -1,32 +1,177 @@
+// {
+//   "root": true,
+//   "parser": "@typescript-eslint/parser",
+//   "plugins": ["@typescript-eslint", "prettier"],
+//   "parserOptions": {
+//     "project": "./tsconfig.json",
+//     "createDefaultProgram": true
+//   },
+//   "env": {
+//     // 전역객체를 eslint가 인식하는 구간
+//     "browser": true, // document나 window 인식되게 함
+//     "node": true,
+//     "es6": true
+//   },
+//   "ignorePatterns": ["node_modules/"], // eslint 미적용될 폴더나 파일 명시
+//   "extends": [
+//     "airbnb",
+//     "airbnb-typescript",
+//     "airbnb/hooks",
+//     "next/core-web-vitals",
+//     "plugin:@typescript-eslint/recommended", // ts 권장
+//     "plugin:prettier/recommended", // eslint의 포매팅을 prettier로 사용.
+//     "prettier" // eslint-config-prettier prettier와 중복된 eslint 규칙 제거
+//   ],
+//   "rules": {
+//     "react/react-in-jsx-scope": "off", // react 17부턴 import 안해도돼서 기능 끔
+//     // 경고표시, 파일 확장자를 .ts나 .tsx 모두 허용함
+//     "react/jsx-filename-extension": ["warn", { "extensions": [".ts", ".tsx"] }],
+//     "no-useless-catch": "off", // 불필요한 catch 못쓰게 하는 기능 끔
+//     "prettier/prettier": ["error"]
+//   }
+// }
+
+// 퍼온 eslint 설정
 {
-  "root": true,
-  "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint", "prettier"],
-  "parserOptions": {
-    "project": "./tsconfig.json",
-    "createDefaultProgram": true
-  },
   "env": {
-    // 전역객체를 eslint가 인식하는 구간
-    "browser": true, // document나 window 인식되게 함
-    "node": true,
-    "es6": true
+    "browser": true,
+    "es2021": true,
+    "jest": true
   },
-  "ignorePatterns": ["node_modules/"], // eslint 미적용될 폴더나 파일 명시
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
   "extends": [
     "airbnb",
-    "airbnb-typescript",
     "airbnb/hooks",
-    "next/core-web-vitals",
-    "plugin:@typescript-eslint/recommended", // ts 권장
-    "plugin:prettier/recommended", // eslint의 포매팅을 prettier로 사용.
-    "prettier" // eslint-config-prettier prettier와 중복된 eslint 규칙 제거
+    "plugin:react/recommended",
+    "plugin:jsx-a11y/recommended",
+    "eslint-config-prettier",
+    "next/core-web-vitals"
   ],
+  "plugins": ["@typescript-eslint"],
+  "settings": {
+    "react": {
+      // Tells eslint-plugin-react to automatically detect the version of React to use.
+      "version": "detect"
+    },
+    "import/extensions": [".js", ".jsx", ".ts", ".tsx"],
+    "import/resolver": {
+      "node": {
+        "paths": ["src"],
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      },
+      "typescript": {
+        "project": "."
+      }
+    }
+  },
   "rules": {
-    "react/react-in-jsx-scope": "off", // react 17부턴 import 안해도돼서 기능 끔
-    // 경고표시, 파일 확장자를 .ts나 .tsx 모두 허용함
-    "react/jsx-filename-extension": ["warn", { "extensions": [".ts", ".tsx"] }],
-    "no-useless-catch": "off", // 불필요한 catch 못쓰게 하는 기능 끔
-    "prettier/prettier": ["error"]
-  }
+    "arrow-body-style": "off",
+    "no-plusplus": "off",
+    "react/display-name": "off",
+    "react/function-component-definition": ["warn", { "namedComponents": "arrow-function" }],
+    "react/jsx-one-expression-per-line": "off",
+    "react/jsx-filename-extension": ["error", { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
+    "react/jsx-props-no-spreading": "off",
+    "react/require-default-props": "off",
+    "react/jsx-wrap-multilines": "off",
+    "react/react-in-jsx-scope": "off",
+    "react/prop-types": "off",
+    "import/prefer-default-export": "off",
+    "import/no-unresolved": "off",
+    "no-restricted-exports": ["error", { "restrictDefaultExports": { "defaultFrom": false } }],
+    "import/order": [
+      "error",
+      {
+        "pathGroups": [
+          {
+            "pattern": "@/lib/**",
+            "group": "external"
+          },
+          {
+            "pattern": "{types/*,@/types*,./types}",
+            "group": "type"
+          },
+          {
+            "pattern": "{hooks,@/hooks/**/*,./hooks/**,./use**,../use**,../../use**,../../../use**,,../../hooks/**,./_hooks/**,../../../_hooks/**}",
+            "group": "internal"
+          },
+          {
+            "pattern": "{utils/**/*,./utils,../utils,../../utils,../../../utils}",
+            "group": "type"
+          },
+          {
+            "pattern": "{@/constants/*,./constants}",
+            "group": "type"
+          },
+          {
+            "pattern": "{states/**/*,./states*,./**/states*,../states*,../../states*,../../../states*,,../../../../states*,**/**/**/states*}",
+            "group": "type"
+          },
+          {
+            "pattern": "@/services/**",
+            "group": "type"
+          },
+          {
+            "pattern": "{./helpers,./data,./config,./defaults,../../../defaults}",
+            "group": "type"
+          },
+          {
+            "pattern": "{components,components/_common/**,@/components,@/components/**,svgs,@/assets/**/*,@/app/**,routes/**,public/**}",
+            "group": "index"
+          },
+          {
+            "pattern": "{styles,./*.scss,../*.scss,../*.module.scss}",
+            "group": "index"
+          }
+        ],
+        "groups": [
+          ["external", "builtin"],
+          ["type", "internal", "object"],
+          ["parent", "sibling", "index"]
+        ],
+        "newlines-between": "always"
+      }
+    ],
+    "import/no-anonymous-default-export": "off",
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": ["**/*.test.tsx", "**/*.stories.*", "**/.storybook/**/*.*", "setupTests.ts"],
+        "peerDependencies": true
+      }
+    ],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
+    "no-param-reassign": ["error", { "props": false }],
+    "no-unused-expressions": ["warn"],
+    "no-unused-vars": "off",
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": ["error"],
+    "@typescript-eslint/camelcase": "off",
+    "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
+    "prefer-destructuring": ["error", { "object": true, "array": false }],
+    "lines-between-class-members": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/label-has-associated-control": [
+      "error",
+      {
+        "labelComponents": ["label"],
+        "labelAttributes": ["htmlFor"],
+        "controlComponents": ["input"]
+      }
+    ]
+  },
+  "globals": { "navigation": "readonly", "globalThis": false, "NodeJS": true }
 }
