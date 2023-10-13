@@ -112,7 +112,7 @@
             "group": "type"
           },
           {
-            "pattern": "@/services/**",
+            "pattern": "@/apis/**",
             "group": "type"
           },
           {

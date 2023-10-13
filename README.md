@@ -2,6 +2,7 @@
 
 ```bash
 yarn set version berry
+yarn install
 ```
 
 개발 서버 실행 시
